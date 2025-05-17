@@ -1,0 +1,26 @@
+show databases;
+create database student_data;
+use student_data;
+CREATE TABLE campus_records (
+    name_full VARCHAR(100),
+    id_number VARCHAR(20) PRIMARY KEY,
+    department VARCHAR(100),
+    passout_year INT
+);
+INSERT INTO campus_records (name_full, id_number, department, passout_year) VALUES
+('Neha Kulkarni', '21CST2001', 'Department of Computing', 2025),
+('Aman Gupta', '21ELE2002', 'Department of Electrical Systems', 2025),
+('Tanya Singh', '21MCH2003', 'Department of Mechanical Design', 2025),
+('Rajat Roy', '20CST2004', 'Department of Computing', 2024);
+INSERT INTO campus_records (name_full, id_number, department, passout_year) VALUES
+('Simran Kaur', '21CSI2005', 'Department of Computing', 2025),
+('Vikram Nair', '21ECL2006', 'Department of Electronics', 2025),
+('Shruti Menon', '20BUS2007', 'Department of Business Studies', 2024),
+('Manish Sahu', '22CIV2008', 'Department of Civil Works', 2026),
+('Kriti Bansal', '21BIO2009', 'Department of Bio Research', 2025);
+select * from campus_records;
+alter table campus_records add(contact_no varchar(10));
+desc campus_records;
+alter table campus_records drop column contact_no;
+alter table campus_records add(nationality varchar(10) default 'India');
+update campus_records set name_full='Ritika Chatterjee' WHERE name_full='Shruti Menon';
