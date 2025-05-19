@@ -1,0 +1,100 @@
+show databases;
+use vit;
+show tables;
+desc vit_chennai;
+alter table vit_chennai drop column s_country;
+
+CREATE TABLE vit_amravati (
+    full_name VARCHAR(100),
+    reg_no VARCHAR(20),
+    school VARCHAR(100),
+    graduation_year INT
+);
+
+INSERT INTO vit_amravati (full_name, reg_no, school, graduation_year) VALUES
+('Akhila Nair', '21BCE1021', 'School of Computer Science and Engineering', 2025),
+('Tarun Reddy', '21ECE1022', 'School of Electronics Engineering', 2025),
+('Shravya Menon', '21MEC1023', 'School of Mechanical Engineering', 2025),
+('Raghav Varma', '21CIV1024', 'School of Civil Engineering', 2025),
+('Deepika Rao', '21EEE1025', 'School of Electrical Engineering', 2025),
+('Manoj Iyer', '21BCE1026', 'School of Computer Science and Engineering', 2025),
+('Pallavi Joshi', '21ECE1027', 'School of Electronics Engineering', 2025),
+('Ritesh Mehta', '21MEC1028', 'School of Mechanical Engineering', 2025),
+('Keerthi Pillai', '21CIV1029', 'School of Civil Engineering', 2025),
+('Aditya Singh', '21EEE1030', 'School of Electrical Engineering', 2025);
+
+CREATE TABLE vit_indore (
+    full_name VARCHAR(100),
+    reg_no VARCHAR(20),
+    school VARCHAR(100),
+    graduation_year INT
+);
+
+INSERT INTO vit_indore (full_name, reg_no, school, graduation_year) VALUES
+('Lavanya Sharma', '21BCE1121', 'School of Computer Science and Engineering', 2025),
+('Rohan Deshmukh', '21ECE1122', 'School of Electronics Engineering', 2025),
+('Sanjana K', '21MEC1123', 'School of Mechanical Engineering', 2025),
+('Kunal Patel', '21CIV1124', 'School of Civil Engineering', 2025),
+('Nitya Mahajan', '21EEE1125', 'School of Electrical Engineering', 2025),
+('Abhishek Rao', '21BCE1126', 'School of Computer Science and Engineering', 2025),
+('Swati Bhargav', '21ECE1127', 'School of Electronics Engineering', 2025),
+('Darshan R', '21MEC1128', 'School of Mechanical Engineering', 2025),
+('Sneha Sinha', '21CIV1129', 'School of Civil Engineering', 2025),
+('Yash Mittal', '21EEE1130', 'School of Electrical Engineering', 2025);
+
+select * from vit_chennai;
+select * from vit_amravati;
+select * from vit_indore;
+
+CREATE TABLE StaffDetails (
+	WORKER_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	FIRST_NAME CHAR(25),
+	LAST_NAME CHAR(25),
+	SALARY INT,
+	JOINING_DATE DATETIME,
+	DEPARTMENT CHAR(25)
+);
+
+INSERT INTO StaffDetails(WORKER_ID, FIRST_NAME, LAST_NAME, SALARY, JOINING_DATE, DEPARTMENT) VALUES
+		(001, 'Kavya', 'Menon', 100000, '2020-02-14 09:00:00', 'HR'),
+		(002, 'Nikita', 'Bajaj', 80000, '2011-06-14 09:00:00', 'Admin'),
+		(003, 'Raghav', 'Kapoor', 300000, '2020-02-14 09:00:00', 'HR'),
+		(004, 'Aarav', 'Verma', 500000, '2020-02-14 09:00:00', 'Admin'),
+		(005, 'Aniket', 'Saxena', 500000, '2011-06-14 09:00:00', 'Admin'),
+		(006, 'Tanya', 'Shetty', 200000, '2011-06-14 09:00:00', 'Account'),
+		(007, 'Harsh', 'Trivedi', 75000, '2020-01-14 09:00:00', 'Account'),
+        (008, 'Neha', 'Kulkarni', 90000, '2011-04-14 09:00:00', 'Admin');
+
+select * from StaffDetails;
+delete from StaffDetails where department='Account';
+drop table employee;
+delete from vit_indore where full_name='Lavanya Sharma';
+truncate table StaffDetails;
+select * from StaffDetails where salary>75000;
+select first_name from StaffDetails where department='HR' and salary>=10000;
+SELECT first_name, department FROM StaffDetails WHERE SALARY > 200000 AND department ='HR';
+SELECT * FROM StaffDetails WHERE SALARY < 200000 AND department ='HR' OR department = 'Admin';
+select * from StaffDetails where salary>100000 and salary<300000 and (department='Admin' or department='Account');
+select * from StaffDetails where department not in ('HR','Admin');
+SELECT * FROM StaffDetails WHERE MOD(worker_id, 2) = 0 AND department IN ('Admin', 'HR') AND salary = (SELECT MAX(salary) FROM StaffDetails WHERE MOD(worker_id, 2) = 0 AND department IN ('Admin', 'HR'));
+
+create database vitchennai;
+use vitchennai;
+create table cse_students(id int, name varchar(40));
+start transaction;
+insert into cse_students values(201, 'Harini');
+savepoint s1;
+insert into cse_students values(202, 'Rithvik');
+savepoint s2;
+delete from cse_students where id=201;
+select * from cse_students;
+rollback to s2;
+delete from cse_students;
+insert into cse_students values(203, 'Lavina');
+savepoint s3;
+insert into cse_students values(204, 'Shaurya');
+savepoint s4;
+delete from cse_students where id=203;
+select * from cse_students;
+rollback to s4;
+commit;
