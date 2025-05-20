@@ -1,0 +1,63 @@
+CREATE DATABASE university_db;
+USE university_db;
+
+CREATE TABLE Department (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE Student (
+    student_id INT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    age INT CHECK (age >= 17),
+    dept_id INT,
+    CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Department(dept_id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE Course (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    dept_id INT NOT NULL,
+    CONSTRAINT fk_course_dept FOREIGN KEY (dept_id) REFERENCES Department(dept_id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE Enrollment (
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE DEFAULT CURRENT_DATE,
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES Student(student_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES Course(course_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+INSERT INTO Department VALUES
+(1, 'Computer Science'),
+(2, 'Electronics'),
+(3, 'Mechanical');
+
+INSERT INTO Student VALUES
+(101, 'Rohit Verma', 'rohit.verma@example.com', 19, 1),
+(102, 'Sneha Raj', 'sneha.raj@example.com', 20, 2),
+(103, 'Anuj Mehta', 'anuj.mehta@example.com', 18, 3);
+
+INSERT INTO Course VALUES
+(501, 'DBMS', 1),
+(502, 'Digital Systems', 2),
+(503, 'Thermodynamics', 3);
+
+INSERT INTO Enrollment VALUES
+(101, 501, '2024-08-01'),
+(102, 502, '2024-08-03'),
+(103, 503, '2024-08-05');
+
+DELETE FROM Student WHERE student_id = 102;
+
+UPDATE Department SET dept_id = 4 WHERE dept_id = 3;
