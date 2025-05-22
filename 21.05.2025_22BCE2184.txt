@@ -1,0 +1,108 @@
+USE vit;
+
+SHOW TABLES;
+
+SELECT * FROM employee1;
+DESC employee1;
+
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    salary INT,
+    joining_date DATETIME,
+    department VARCHAR(50)
+);
+
+INSERT INTO employee VALUES
+(201, 'Meena', 'Rao', 115000, '2018-04-12 10:30:00', 'Finance'),
+(202, 'Nikhil', 'Verma', 91000, '2019-06-18 11:00:00', 'IT'),
+(203, 'Divya', 'Iyer', 107000, '2020-02-25 09:45:00', 'HR'),
+(204, 'Sahil', 'Jain', 76000, '2017-10-11 08:30:00', 'Admin'),
+(205, 'Kriti', 'Agarwal', 135000, '2021-05-19 12:15:00', 'Finance'),
+(206, 'Vikram', 'Nair', 83000, '2022-01-30 10:00:00', 'HR'),
+(207, 'Aarti', 'Desai', 89000, '2023-03-08 09:00:00', 'IT'),
+(208, 'Manav', 'Seth', 97000, '2024-07-14 10:20:00', 'Admin');
+
+SELECT * FROM employee1 WHERE emp_id IN (5,6);
+SELECT * FROM employee1 WHERE emp_id NOT IN (5,6);
+SELECT * FROM employee1 WHERE salary BETWEEN 95000 AND 150000;
+SELECT * FROM employee1 WHERE salary NOT BETWEEN 95000 AND 150000;
+SELECT * FROM employee1 WHERE salary BETWEEN 95000 AND 180000 AND (emp_id IN (3,4,5,6));
+SELECT MIN(salary) FROM employee1;
+SELECT MAX(salary) FROM employee1;
+SELECT SUM(salary) FROM employee1;
+SELECT AVG(salary) FROM employee1;
+SELECT * FROM employee1 WHERE salary = (SELECT MIN(salary) FROM employee1);
+SELECT department, SUM(salary) AS total_salary
+FROM employee1
+GROUP BY department
+HAVING SUM(salary) > 120000;
+
+SELECT DISTINCT(department) FROM employee1;
+SELECT department FROM employee
+UNION
+SELECT department FROM employee1;
+
+SELECT department FROM employee
+UNION ALL
+SELECT department FROM employee1;
+
+SELECT * FROM employee1 WHERE emp_id IN (3,4,5)
+UNION
+SELECT * FROM employee WHERE emp_id IN (201,202,203);
+
+SELECT * FROM employee1 WHERE salary <= 180000 ORDER BY salary;
+SELECT * FROM employee1 WHERE salary <= 180000 ORDER BY salary DESC;
+SELECT * FROM employee1 WHERE first_name LIKE '_e%a';
+SELECT * FROM employee1 WHERE first_name LIKE '__k%';
+SELECT * FROM employee1 WHERE first_name LIKE '%i_i';
+SELECT * FROM employee1 WHERE first_name LIKE '_ri%';
+SELECT * FROM employee1 WHERE first_name LIKE 'M%' OR first_name LIKE 'K%';
+
+CREATE VIEW admin_group AS SELECT * FROM employee1 WHERE department = 'Admin' AND salary < 95000;
+CREATE OR REPLACE VIEW admin_group AS SELECT * FROM employee1 WHERE department = 'Admin' AND salary > 200000;
+SELECT * FROM admin_group;
+DROP VIEW admin_group;
+
+SELECT first_name, salary,
+CASE
+    WHEN salary > 250000 THEN "High Income"
+    WHEN salary <= 250000 AND salary >= 95000 THEN "Middle Income"
+    WHEN salary < 95000 AND salary >= 0 THEN "Low Income"
+    ELSE "Unknown"
+END AS income_status
+FROM employee;
+
+SELECT * FROM employee;
+
+CREATE TABLE inventory (
+    ItemID INT PRIMARY KEY,
+    ItemName VARCHAR(100),
+    VendorID INT,
+    CategoryID INT,
+    Package VARCHAR(50),
+    Cost DECIMAL(10, 2)
+);
+
+INSERT INTO inventory VALUES
+(11, 'Basmati Rice', 2, 4, '5 kg pack', 42.50),
+(12, 'Olive Oil', 2, 5, '1 L bottle', 35.75),
+(13, 'Organic Honey', 2, 5, '500 ml jar', 27.00),
+(14, 'Spice Mix', 2, 6, '3 x 250 g packs', 18.00),
+(15, 'Dry Fruits', 2, 6, '250 g box', 24.20);
+
+CREATE TABLE purchase (
+    PurchaseID INT PRIMARY KEY,
+    BuyerID INT,
+    StaffID INT,
+    PurchaseDate DATE,
+    DeliveryID INT
+);
+
+INSERT INTO purchase VALUES
+(30201, 108, 7, '2020-01-10', 2),
+(30202, 122, 8, '2020-01-11', 3),
+(30203, 116, 9, '2020-01-12', 1),
+(30204, 135, 10, '2020-01-13', 2),
+(30205, 140, 11, '2020-01-14', 1);
