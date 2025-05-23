@@ -1,0 +1,92 @@
+USE university;
+
+SELECT * FROM employee_info;
+SELECT * FROM employee;
+
+SELECT COUNT(dept_name)
+FROM employee_info
+GROUP BY dept_name
+ORDER BY COUNT(dept_name) DESC
+LIMIT 1;
+
+SELECT dept_name, SUM(monthly_pay) AS total_pay
+FROM employee_info
+GROUP BY dept_name
+ORDER BY total_pay
+LIMIT 1;
+
+SELECT dept_name, SUM(monthly_pay)
+FROM employee_info
+GROUP BY dept_name;
+
+SELECT dept_name, COUNT(dept_name)
+FROM employee_info
+GROUP BY dept_name
+HAVING COUNT(dept_name) > 3;
+
+SELECT dept_name, SUM(monthly_pay) AS total_pay
+FROM employee_info
+GROUP BY dept_name
+ORDER BY total_pay DESC
+LIMIT 1;
+
+SELECT dept_name, SUM(monthly_pay)
+FROM employee_info
+GROUP BY dept_name
+ORDER BY SUM(monthly_pay) DESC
+LIMIT 1 OFFSET 1;
+
+SELECT emp_name, dept_name 
+FROM employee_info 
+WHERE monthly_pay = (SELECT MAX(monthly_pay) FROM employee_info);
+
+SELECT emp_name, dept_name, monthly_pay 
+FROM employee_info 
+WHERE monthly_pay > (SELECT AVG(monthly_pay) FROM employee_info);
+
+CREATE TABLE learners (
+    learner_id INT,
+    learner_name VARCHAR(30)
+);
+
+INSERT INTO learners VALUES
+(201,'Ananya'),
+(202,'Rohan'),
+(203,'Sneha'),
+(204,'Vikram'),
+(205,'Divya');
+
+CREATE TABLE residence (
+    learner_id INT,
+    city VARCHAR(30)
+);
+
+INSERT INTO residence VALUES 
+(201,'Delhi'),
+(203,'Mumbai'),
+(204,'Hyderabad');
+
+SELECT * FROM learners;
+SELECT * FROM residence;
+
+SELECT * FROM learners CROSS JOIN residence;
+
+SELECT * FROM learners INNER JOIN residence 
+ON learners.learner_id = residence.learner_id;
+
+SELECT * FROM learners LEFT OUTER JOIN residence 
+ON learners.learner_id = residence.learner_id;
+
+SELECT * FROM learners RIGHT OUTER JOIN residence 
+ON learners.learner_id = residence.learner_id;
+
+SELECT * FROM learners FULL OUTER JOIN residence 
+ON learners.learner_id = residence.learner_id;
+
+SELECT DISTINCT monthly_pay
+FROM employee_info E1
+WHERE (
+    SELECT COUNT(DISTINCT monthly_pay)
+    FROM employee_info E2
+    WHERE E2.monthly_pay > E1.monthly_pay
+) = 4;
