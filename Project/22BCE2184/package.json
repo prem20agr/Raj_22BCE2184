@@ -1,0 +1,30 @@
+{
+  "name": "habitflow-personal-tracker",
+  "version": "2.0.0",
+  "description": "HabitFlow - Personal Habit Tracking System for building and maintaining positive daily habits",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "npm run server",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start", 
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-server": "cd server && npm install",
+    "install-client": "cd client && npm install",
+    "install-all": "npm run install-server && npm run install-client",
+    "build": "cd client && npm run build",
+    "seed": "cd server && npm run seed"
+  },
+  "keywords": ["habitflow", "habits", "tracking", "wellness", "productivity", "goals", "personal-development"],
+  "author": "Raj Agarwal <raj.agarwal@habitflow.app>",
+  "license": "MIT",
+  "repository": {
+    "type": "git", 
+    "url": "https://github.com/rajagarwal/habitflow-personal-tracker.git"
+  },
+  "homepage": "https://habitflow.app",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "mongodb": "^6.17.0"
+  }
+}
